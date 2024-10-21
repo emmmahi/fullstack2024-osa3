@@ -1,4 +1,5 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 let persons = [
@@ -25,6 +26,7 @@ let persons = [
     ]
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
@@ -72,7 +74,7 @@ app.post('/api/persons', (request, response) => {
         error: 'name must be unique' 
       })
     }
-    
+
     const person = {
         id: generateId().toString(),
         name: body.name,
