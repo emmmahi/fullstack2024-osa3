@@ -24,9 +24,13 @@ let persons = [
         number: "39-23-6423122"
     }
     ]
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 //app.use(morgan('tiny'))
+
+app.use(express.static('dist'))
 
 
 morgan.token('body', (req, res) => JSON.stringify(req.body))
