@@ -57,32 +57,21 @@ const generateId = () => {
 }
 
 
-app.post('/api/persons', (request, response) => {
-    const body = request.body
-  
-    if (!body.name || !body.number) {
-      return response.status(400).json({ 
-        error: 'name or number is missing' 
-      })
-    }
+app.post('/api/persons', (request, response, next) => {
+  const body = request.body
 
-    const nameExists = persons.some(person => person.name === body.name)
-    if (nameExists) {
-      return response.status(400).json({ 
-        error: 'name must be unique' 
-      })
-    }
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
 
-    const person = {
-        id: generateId().toString(),
-        name: body.name,
-        number: body.number,
-      }
-    
-      persons = persons.concat(person)
-    
-      response.json(person)
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
     })
+    .catch(error => next(error))
+})
+
 
 app.get("/info", (request, response) => {
     const time = new Date();
