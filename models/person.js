@@ -3,8 +3,7 @@ const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 
 
-//const url = process.env.MONGODB_URI
-const url = "mongodb+srv://emmatesti:fullstack@cluster0.inku0.mongodb.net/Puhelinluettelo?retryWrites=true&w=majority&appName=Cluster0"
+const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 mongoose.connect(url)
 
@@ -19,6 +18,7 @@ const personSchema = new mongoose.Schema({
   name: String,
   number: String,
 })
+
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
