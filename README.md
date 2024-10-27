@@ -1,18 +1,22 @@
 # Fullstack 2024 - osa 3
 
-## Muistiin
+Paikallinen käyttö:
+`npm run dev`
 
-
-node_modules/.bin/nodemon index.js tai npm run dev -> avaa lokaalin kehitysympäristön, yhteys mongoon luodaan koodin sisällö ja voi mennä avautuneen portin localhost sijaintiin 
- 
-Osien 3.13. ja 3.14. suorittaminen: 
-* npm install mongoose npm install mongodb
-* models kansio ja sinne person.js  -> mongoose koodi tänne
-* npm install dotenv -> ympäristömuuttuuja .env tiedostoon ja se gitignoreen
-
-* sen käyttöönotto index_copy.js (tämä pitää lopulta laittaa index.js)
-
-* get ja post tapahtumien muutos
+HPX! Tekemättä on automaatinen deployment puhelinluettelo-kansiosta:
+Vaatisi jotain tälllaista `package.json`:
+````
+{
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "build:ui": "rm -rf build && cd ../puhelinluettelo && npm run build && cp -r build .",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint ."
+  },
+} 
+````
 
 Sovellus osoitteessa: 
 https://fullstack2024-osa3-jvbv.onrender.com/
