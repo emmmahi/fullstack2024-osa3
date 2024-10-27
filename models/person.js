@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 mongoose.set('strictQuery', false)
 
 
-//const url = process.env.MONGODB_URI
-const url = "mongodb+srv://emmatesti:leevikissa@cluster0.inku0.mongodb.net/Puhelinluettelo?retryWrites=true&w=majority&appName=Cluster0"
+const url = process.env.MONGODB_URI
+
 console.log('connecting to', url)
 mongoose.connect(url)
 
