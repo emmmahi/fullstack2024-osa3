@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 
-require('dotenv').config();
+require('dotenv').config()
 
 const cors = require('cors')
 const Person = require('./models/person')
@@ -41,47 +41,47 @@ app.use(express.static('dist'))
 app.use(requestLogger)
 
 
-morgan.token('body', (req, res) => JSON.stringify(req.body))
+morgan.token('body', (req) => JSON.stringify(req.body))
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
 
 app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-    })
+  response.send('<h1>Hello World!</h1>')
+})
 
 
 app.get('/api/persons', (request, response) => {
-    Person.find({}).then(persons => {
-        console.log('Fetched persons:', persons); // Log persons
-        response.json(persons);
-    }).catch(error => {
-        console.error('Error fetching persons:', error);
-        response.status(500).json({ error: 'Failed to fetch persons' });
-    });
-});
+  Person.find({}).then(persons => {
+    console.log('Fetched persons:', persons) // Log persons
+    response.json(persons)
+  }).catch(error => {
+    console.error('Error fetching persons:', error)
+    response.status(500).json({ error: 'Failed to fetch persons' })
+  })
+})
 
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
-      .then(person => {
-          if (person) {
-              response.json(person);
-          } else {
-              response.status(404).end();
-          }
-      })
-      .catch(error => next(error))
-});
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
+})
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
-  })
+})
 
 
 app.post('/api/persons', (request, response, next) => {
@@ -100,12 +100,12 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const { name, number } = request.body;
+  const { name, number } = request.body
 
   const person = {
     name,
     number,
-  };
+  }
 
   Person.findByIdAndUpdate(
     request.params.id,
@@ -114,32 +114,32 @@ app.put('/api/persons/:id', (request, response, next) => {
   )
     .then(updatedPerson => {
       if (updatedPerson) {
-        response.json(updatedPerson);
+        response.json(updatedPerson)
       } else {
-        response.status(404).end();
+        response.status(404).end()
       }
     })
-    .catch(error => next(error));
-});
+    .catch(error => next(error))
+})
 
 
-app.get("/info", (request, response) => {
+app.get('/info', (request, response) => {
   Person.countDocuments({})
     .then(count => {
-      const time = new Date();
-      const info = `Phonebook has info for ${count} people<br><br>${time}`;
-      response.send(info);
+      const time = new Date()
+      const info = `Phonebook has info for ${count} people<br><br>${time}`
+      response.send(info)
     })
     .catch(error => {
-      console.error('Error fetching person count:', error);
-      response.status(500).json({ error: 'Failed to fetch person count' });
-    });
-});
+      console.error('Error fetching person count:', error)
+      response.status(500).json({ error: 'Failed to fetch person count' })
+    })
+})
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
+  console.log(`Server running on port ${PORT}`)
+})
